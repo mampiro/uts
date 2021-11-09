@@ -104,6 +104,12 @@ class Uts extends CI_Controller {
 		else
 		{ 
 
+
+
+			
+
+			
+
 			$config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['max_size'] = '100000';
@@ -124,8 +130,25 @@ class Uts extends CI_Controller {
 			$this->load->library('upload', $config);
 			$this->upload->do_upload('photo');
 			
+					
 			
 			$datafoto=$this->upload->data();
+			
+			//GD
+			$this->load->library('image_lib');
+			$configer =  array(
+				'image_library'   => 'gd2',
+				'source_image'    =>  $datafoto['full_path'],
+				'maintain_ratio'  =>  TRUE,
+				'width'           =>  250,
+				'height'          =>  250,
+			);
+				
+			$this->image_lib->clear();
+			$this->image_lib->initialize($configer);
+			$this->image_lib->resize();
+			
+			
 				
 			$input = array(
 				'nip' => $this->input->post('nip'),
@@ -264,8 +287,22 @@ class Uts extends CI_Controller {
 			$this->load->library('upload', $config);
 			$this->upload->do_upload('photo');
 			
-			
 			$datafoto=$this->upload->data();
+					
+			//GD
+			$this->load->library('image_lib');
+			$configer =  array(
+				'image_library'   => 'gd2',
+				'source_image'    =>  $datafoto['full_path'],
+				'maintain_ratio'  =>  TRUE,
+				'width'           =>  250,
+				'height'          =>  250,
+			);
+			$this->image_lib->clear();
+			$this->image_lib->initialize($configer);
+			$this->image_lib->resize();
+			
+			
 
 			if($_FILES["photo"]['name']=="")
 			{
